@@ -14,24 +14,7 @@ const app = new Hono<{
 
 app.route('/api/v1/user',userRouter);
 app.route('/api/v1/blog',blogRouter)
-// Middleware for authentication
 
-app.use('/api/v1/blog/*', async(c, next) =>{
-  try {
-    const header =  c.req.header('authorization') || '';
-    const token = header.split(" ")[1]
-    const response = await verify(token,c.env.JWT_SECRET);
-    if(response.id){
-      next()
-    }else{
-      c.status(403);
-      return c.json({error :"unauthorized"});
-    }
-  } catch (error) {
-    c.status(500);
-    return c.json({ error: "Internal server error" });
-  }
-})
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
