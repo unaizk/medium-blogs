@@ -1,13 +1,30 @@
 import { SignupInput } from "@unaizk/medium-common";
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios'
+import { BACKEND_URL } from "../config";
+
 
 const Auth = ({type} : {type : "signup" | "signin"}) => {
+const navigate = useNavigate()
   const [postInputs, setPostInputs] = useState<SignupInput>({
     email: "",
     password: "",
     name: "",
   });
+
+
+  const sendRequest = async() =>{
+    try {
+        const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signin" ? "signin" : "signup"}`, postInputs);
+        const jwt = response.data.jwt;
+        localStorage.setItem('token',jwt);
+        navigate('/blogs')
+    } catch (error) {
+        console.log(error);
+        
+    }
+  }
   return (
     <div className="h-screen flex justify-center flex-col">
       <div className="flex justify-center">
@@ -23,7 +40,7 @@ const Auth = ({type} : {type : "signup" | "signin"}) => {
             </div>
           </div>
           <div className="pt-8">
-            <LabelledInput
+           {type === "signup" ? <LabelledInput
               label="Username"
               placeholder="Enter Username"
               onChange={(e) => {
@@ -32,7 +49,7 @@ const Auth = ({type} : {type : "signup" | "signin"}) => {
                   name: e.target.value,
                 });
               }}
-            />
+            /> : null}
             <LabelledInput
               label="Email"
               placeholder="Enter Email"
@@ -54,7 +71,7 @@ const Auth = ({type} : {type : "signup" | "signin"}) => {
                 });
               }}
             />
-            <button type="button" className=" mt-8 text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{type === "signup" ? "Sign up" : "Sign in"}</button>
+            <button onClick={sendRequest} type="button" className=" mt-8 text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{type === "signup" ? "Sign up" : "Sign in"}</button>
           </div>
         </div>
       </div>
