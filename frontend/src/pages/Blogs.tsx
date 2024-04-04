@@ -1,28 +1,29 @@
+import AppBar from "../components/AppBar"
 import BlogCard from "../components/BlogCard"
+import useBlogs from "../hooks"
 
 
 const Blogs = () => {
+    const {loading, blogs} = useBlogs()
+
   return (
-    <div className="flex justify-center">
-        <div className="max-w-xl">
-            <BlogCard authorName='Unais K'
-            title = 'title of the bloghghja dsahgdsahdksa gdsagdsa dgsa sagdjsjahdsl ff dkhfudlgfdhsfb fgsda lfdsa fds fds fgldsagfdsh fgdshfgsd fgsdlfgydsfg sda'
-            content = 'title of the bloghghja dsahgdsahdksa gdsagdsa dgsa sagdjsjahdsl ff dkhfudlgfdhsfb fgsda lfdsa fds fds fgldsagfdsh fgdshfgsd fgsdlfgydsfg sda'
-            publishedDate = '2nd Feb 2024' />
-             <BlogCard authorName='Unais K'
-            title = 'title of the bloghghja dsahgdsahdksa gdsagdsa dgsa sagdjsjahdsl ff dkhfudlgfdhsfb fgsda lfdsa fds fds fgldsagfdsh fgdshfgsd fgsdlfgydsfg sda'
-            content = 'title of the bloghghja dsahgdsahdksa gdsagdsa dgsa sagdjsjahdsl ff dkhfudlgfdhsfb fgsda lfdsa fds fds fgldsagfdsh fgdshfgsd fgsdlfgydsfg sda'
-            publishedDate = '2nd Feb 2024' />
-             <BlogCard authorName='Unais K'
-            title = 'title of the bloghghja dsahgdsahdksa gdsagdsa dgsa sagdjsjahdsl ff dkhfudlgfdhsfb fgsda lfdsa fds fds fgldsagfdsh fgdshfgsd fgsdlfgydsfg sda'
-            content = 'title of the bloghghja dsahgdsahdksa gdsagdsa dgsa sagdjsjahdsl ff dkhfudlgfdhsfb fgsda lfdsa fds fds fgldsagfdsh fgdshfgsd fgsdlfgydsfg sda'
-            publishedDate = '2nd Feb 2024' />
-             <BlogCard authorName='Unais K'
-            title = 'title of the bloghghja dsahgdsahdksa gdsagdsa dgsa sagdjsjahdsl ff dkhfudlgfdhsfb fgsda lfdsa fds fds fgldsagfdsh fgdshfgsd fgsdlfgydsfg sda'
-            content = 'title of the bloghghja dsahgdsahdksa gdsagdsa dgsa sagdjsjahdsl ff dkhfudlgfdhsfb fgsda lfdsa fds fds fgldsagfdsh fgdshfgsd fgsdlfgydsfg sda'
-            publishedDate = '2nd Feb 2024' />
-        </div>
-        
+    <div>
+        <AppBar />
+        {loading ? <div>Loading...... </div> :  <div className="flex justify-center">
+            <div >
+                {blogs.map((blog) => (
+                     <BlogCard authorName={blog.author.name}
+                     title = {blog.title}
+                     content = {blog.content}
+                     publishedDate = '2nd Feb 2024'
+                     id = {blog.id} />
+                ))}
+               
+               
+            </div>
+            
+        </div>}
+       
     </div>
    
   )

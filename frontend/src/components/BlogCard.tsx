@@ -1,17 +1,20 @@
+import { Link } from "react-router-dom";
 
 
 interface BlogCardProps {
     authorName : string;
     title : string;
     content : string;
-    publishedDate : string
+    publishedDate : string,
+    id : string
 }
-const BlogCard = ({authorName, title, content, publishedDate} : BlogCardProps) => {
+const BlogCard = ({authorName, title, content, publishedDate, id} : BlogCardProps) => {
   return (
-    <div className="border-b border-slate-200 pb-4 p-4">
+    <Link to={`/blog/${id}`}>
+    <div className="border-b border-slate-200 pb-4 p-4 w-screen max-w-screen-md cursor-pointer">
         <div className="flex ">
             
-                <Avatar name={authorName} />
+                <Avatar name={authorName} size="small" />
             
             
             <div className="font-extralight pl-2 text-sm flex justify-center flex-col">
@@ -36,6 +39,7 @@ const BlogCard = ({authorName, title, content, publishedDate} : BlogCardProps) =
         </div>
         
     </div>
+    </Link>
   )
 }
 
@@ -48,10 +52,10 @@ const Circle = () =>{
 }
 
 
-const Avatar = ({name } : {name :string}) =>{
+export const Avatar = ({name , size} : {name :string, size : 'small' | 'big'}) =>{
     return (
-        <div className="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-            <span className="font-extralight text-gray-600 dark:text-gray-300 text-xs">{name[0]}</span>
+        <div className={`relative inline-flex items-center justify-center ${size === 'small' ? 'w-6 h-6' : 'w-10 h-10' }  overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600`}>
+            <span className={`font-extralight text-gray-600 dark:text-gray-300 ${size === 'small' ? 'text-sm' : 'text-lg'}`}>{name[0]}</span>
         </div>
     )
 }
